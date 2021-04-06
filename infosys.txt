@@ -1,0 +1,31 @@
+I started my career with Infosys BPM as a process executive in 2016.
+Here I used to work on power BI and SQL server for daily sales reporting. 
+Left infosys BPM in 2018 to grow my career in Big data and 
+since last 3 years working with Ample SofTech as a Big data engineer.
+Here our client is swiggy. swiggy is online food delivery platform and it is spread aroung 500 cities in india.
+Here we are dealing with Event streams, CDC logs and other sources like marketing logs,file uploads etc.
+At the injestion level we are dealing with Event streams which represents continious events of whats happening in swiggy's domain and 100's of
+microservices are pushing data over http into the data lake through this system.(append only logs)
+then we have CDC logs which is continous stream of our transactional databases(upsert) and then we have some other sources
+like marketing logs and file uploads etc.
+All of these systems are using schema store which is storing schema per enent besis which is comming in regardless it is comming via CDC or event stream.
+this is where we are validating the data which is comming in is correct or not.
+Event stream logs are then passed on to different kafka topics from where different consumers take this data using spark streaming API
+with small-small buffer times like 2 minute or 3 minute and write it to S3 in date and hour partition.
+CDC logs from transactional databases are captured by Maxwell which is essentially getting bin logs and converting into json format and pushed to kafka.
+from kafka it is comming to spark streaming layer where we use apache hudi which is doing upsert over CDC table which is created over S3.
+Once we have data available in S3 the next part is storage and query and we usually use json and parquet for this.
+on each data asset stored on S3, external tables is buit over it using hive so that any user can see what data is stored on data assets.
+and then we create and replicate fact and dimension tables into data warehouse.
+and then the data is being used by data analysts and data scientists for real time context- 
+Historical context i.e what has happened in few dyas/months
+Daily context i.e what has happened today
+Current context i.e. what is happening now
+ 
+
+*******number of connections to the kafka created some issues in the past like latency in data delivery*******************
+******Each event which is comming in has different topic in kafka and number of partitions are depend upon the throughput(rate of successful message delivery) of the topic.
+partition number changes as we have metrics which continiously analyze which topic has gone under massive change in terms of throughput. ****************
+
+
+
