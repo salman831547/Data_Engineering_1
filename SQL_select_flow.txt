@@ -1,0 +1,55 @@
+ SELECT column_name(s)
+
+  FROM table_name
+
+  WHERE condition
+
+  GROUP BY column_name(s)
+ORDER BY column_name(s);
+
+SELECT [ALL | DISTINCT] select_expr, select_expr, ... 
+FROM table_reference 
+[WHERE where_condition] 
+[GROUP BY col_list] 
+[HAVING having_condition] 
+[ORDER BY col_list]] 
+[LIMIT number];
+
+*****************single Join-------------------------------------
+select a.first_name,a.last_name,b.city from actor as a join city as b on a.actor_id=b.city_id;
+----------------Multi join-------------------------------------
+select a.first_name,a.last_name,b.city,c.title from actor as a
+join city as b on a.actor_id=b.city_id 
+join film as c on a.actor_id=c.film_id;
+-----------------------------------------------------------
+--------------------Group by , having----------------------------
+select rating,sum(rental_duration) as Total_duration from film group by rating having sum(rental_duration)>=931 order by rating desc;
+
+-----------------------------------------------------------
+Hive_Scripting - https://www.youtube.com/watch?v=E-zapgAszTg
+Sqoop_scripting - https://www.youtube.com/watch?v=S0h3waPAXhU
+
+--------------HIVE TABLE-------------------
+CREATE EXTERNAL TABLE IF NOT EXISTS S3_db.S3_table (
+  `region` string,
+  `country` string,
+  `item_type` string,
+  `sales_channel` string,
+  `order_priority` string,
+  `order_date` date,
+  `order_id` int,
+  `ship_date` date,
+  `units_sold` double,
+  `unit_price` double,
+  `unit_cost` double,
+  `total_revenue` double,
+  `total_cost` double,
+  `total_profit` double 
+)
+ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe'
+WITH SERDEPROPERTIES (
+  'serialization.format' = ',',
+  'field.delim' = ','
+) LOCATION 's3://athenabucket123/SalesRecords/'
+
+---------************************-------------------------------

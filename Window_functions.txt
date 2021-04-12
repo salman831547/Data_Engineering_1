@@ -1,0 +1,138 @@
+-------------Questions asked by Interviewer HCL---------------
+1. How will you handle out of memory issue
+https://www.youtube.com/watch?v=FdT5o7M35kU&t=207s,https://www.youtube.com/watch?v=iLpjNItogwc&t=256s
+https://www.youtube.com/watch?v=Sf4pvZED1pQ&list=PLmxEf0O3MqNuOi5N4HnJH9Jaskus5U7tr
+https://www.youtube.com/watch?v=I7RbpsRTcMQ&list=PLmxEf0O3MqNuOi5N4HnJH9Jaskus5U7tr&index=2
+https://www.youtube.com/watch?v=KbaLrFgGbNw
+
+2. How will you handle load(load balance) in spark/aws
+3. Repartition and coleasce
+4. Out of memory while reading table
+5. Which file format will you use and why?
+6. Format of schema
+7. Array manupulation and find duplicate using for loop. (buffer)
+8. Find latest date in the column
+9. create hive table and insert data of different file format
+10. Find duplicate records in spark
+11. read data from config file
+12. read rdbms data without sqoop
+13. spark submit modes and details.
+https://www.youtube.com/watch?v=a1TxPio7osY
+https://www.youtube.com/watch?v=FaoEl7Q4GBk&list=RDCMUCakdSIPsJqiOLqylgoYmwQg&index=9
+https://www.youtube.com/watch?v=b-gIlZv1qA4
+-----------------------Hexaware_Interview---------------------------------
+1. How will you insert and update in hive tables at the same time i.e lookup the value and if match found update it.(upsert)
+2. How spark job will work internally
+3. What is the batch size of kafka
+4. What schema using on redshift
+5. Databse migration from on-premise to the cloud
+6. What is delta table in hive
+----------------------------LTI_Interview-----------------------------------------
+1. Can I read data from S3 in athena without creating table
+2. What is explode
+3. What is VPC
+4. How redshift works, what is the benifit of columnar database like redshift
+5. duplicate records
+6. top 10 salary
+7. Suggestion - You have so much technologies on resume, get detail knowledge on aws and it's services
+-----------------https://sparkbyexamples.com/spark/spark-submit-command/----------------------
+14. AWS storage types and usage
+15. Increamental load
+https://www.youtube.com/watch?v=B51yDF04xLw&t=893s
+16. Scala besic
+17. Hive window and analytical functions
+18. 
+
+
+--------------------------------Spark_ALL---------------------------------
+broadcast_veriables - https://www.youtube.com/watch?v=0B-vmJl2Bek
+Accumulator         - https://www.youtube.com/watch?v=oSdCNAlx02E
+Live_Interview      - https://www.youtube.com/watch?v=V51P7gjrZd0, https://www.youtube.com/watch?v=Jpwz_2yTCUk
+Stop_Hardcoding     - https://www.youtube.com/watch?v=udiCb5jH7TM&list=PLHoQFin5tpu_JfE_k-tvVjeja9RXvBIdm&index=42
+By_key_operations   - https://www.youtube.com/watch?v=WHC_tqddPNY,https://stackoverflow.com/questions/41236804/spark-dataframes-reducing-by-key
+Cloease Scenario    - https://www.youtube.com/watch?v=esTidrzETkI
+Rank_drop_duplicates- https://www.youtube.com/watch?v=7BFdEj166jA
+Broadcast vs Accumulators - https://www.youtube.com/watch?v=AyfuUQtfWFY&t=909s
+
+ 
+   
+----------------------------------Hive_All-----------------------------------------------
+Decide_number_of_Buckets - https://www.youtube.com/watch?v=ddYESbbWNsI
+Performanance            - https://www.youtube.com/watch?v=KRiRLOixm7E
+
+
+
+
+----------------------------------SQL---------------------------------------------------
+Diff rows and range - https://www.youtube.com/watch?v=hM1YKSxltDU
+
+--------------------------------QuickSight----------------------
+https://www.youtube.com/watch?v=olA5ikCuLo0
+--------------------------------Kafka-------------------------------
+LimeGuru - https://www.youtube.com/watch?v=r4c0whAOCGI
+Kafka_AWS - https://www.youtube.com/watch?v=HtU9pb18g5Q
+
+--------------------------Linux Shell Scripting-------------------
+https://www.youtube.com/watch?v=cQepf9fY6cE&list=PLS1QulWo1RIb9WVQGJ_vh-RQusbZgO_As&index=47
+----------------------------------------------------------------------
+
+
+-----------------------Row_number,Rank and dens rank -https://www.youtube.com/watch?v=TzsrO4zTQj8  --------------------------------------
+SELECT manufacturer,horsepower,
+row_number() OVER (partition by manufacturer order by horsepower asc) AS row_num,
+rank() OVER (partition by manufacturer order by horsepower asc) as rank,
+dense_rank() OVER (partition by manufacturer order by horsepower asc) as dense_rank  FROM carsales;
+------------------------Avg of Salary---------------------------------------------------
+select manufacturer,round(avg(sales),3) as AVG_Sale from carsales group by manufacturer order by AVG_Sale desc ;
+
+------------------------Window funnctions-----------------------------------------------------------------------
+
+select manufacturer,horsepower,sum(horsepower) over(order by horsepower rows between unbounded preceding and unbounded following) as sum_horse from carsales;
+
+select manufacturer,horsepower,sum(horsepower) over(partition by manufacturer order by horsepower rows between unbounded preceding and unbounded following) as sum_horse from carsales;
+
+select manufacturer,horsepower,sum(horsepower) over(partition by manufacturer order by horsepower rows between 1 preceding and 1 following) as sum_horse from carsales;
+
+select manufacturer,horsepower,sum(horsepower) over(partition by manufacturer order by horsepower rows between unbounded preceding and unbounded following) as sum_horse from carsales  order by manufacturer;
+
+select distinct * from(select manufacturer,sum(horsepower) over(partition by manufacturer order by horsepower rows between unbounded preceding and unbounded following) as sum_horse from carsales order by manufacturer);
+
+select manufacturer,horsepower,sum(horsepower) over(partition by manufacturer order by horsepower rows between current row and unbounded following) as sum_horse from carsales;
+
+select manufacturer,horsepower,first_value(horsepower) over(partition by manufacturer order by horsepower) as sum_horse from carsales;
+
+Window alias - https://changhsinlee.com/hive-multiple-window/
+---------------------------------date_parsing Athena - https://cloudjunkie.io/,Scala,aws,spark- https://www.youtube.com/c/cfamilycomputers/playlists-------------------------------------
+
+SELECT price,latest_launch, 
+   Coalesce(
+     try(date_parse(latest_launch, '%Y-%m-%d %H:%i:%s')),
+     try(date_parse(latest_launch, '%Y/%m/%d %H:%i:%s')),
+     try(date_parse(latest_launch, '%d %M %Y %H:%i:%s')),
+     try(date_parse(latest_launch, '%d/%m/%Y %H:%i:%s')),
+     try(date_parse(latest_launch, '%d-%m-%Y %H:%i:%s')),
+     try(date_parse(latest_launch, '%Y-%m-%d')),
+     try(date_parse(latest_launch, '%Y/%m/%d')),
+     try(date_parse(latest_launch, '%d %M %Y'))
+   ) 
+
+FROM carsales where latest_launch>'02-02-2012'
+
+select date_parse(b.APIDT, '%Y-%m-%d') from APAPP100 b
+
+------------------------------------------Lead and Lag-------------------------------------------------------
+select manufacturer,model,price,lead(price,2,-1) over(order by price desc) as lead from carsales;
+select manufacturer,model,price,lag(price,2,-1) over(partition by manufacturer order by price desc) as lead from carsales;
+
+---------------------Create_table - https://bigdataprogrammers.com/find-max-value-of-a-row-in-hive/---------------------------------
+CREATE TABLE Company_Finance_Detail (
+    name STRING,
+    Q1 DOUBLE,
+    Q2 DOUBLE,
+    Q3 DOUBLE,
+    Q4 DOUBLE
+) STORED AS ORC;
+---------------------------------------------------------------------------
+
+
+

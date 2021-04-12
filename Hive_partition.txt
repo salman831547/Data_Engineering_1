@@ -1,0 +1,105 @@
+Hive add partition - ALTER TABLE film1 ADD PARTITION (ratings='R') location 's3://hivetables123/film/';
+Load data from partitions - MSCK REPAIR TABLE table_name;(Athena)
+Hive partitioning explain - https://www.javatpoint.com/partitioning-in-hive
+Increamental_load - https://www.youtube.com/watch?v=B51yDF04xLw
+File systems - https://www.youtube.com/watch?v=q8uqpwxaVZw
+
+----------------------------------static Partitioning------------------------------------
+hive> create table student (id int, name string, age int,  institute string)   
+partitioned by (course string)  
+row format delimited  
+fields terminated by ',';  
+
+hive> load data local inpath '/home/codegyani/hive/student_details1' into table student  
+partition(course= "java");    
+
+hive> load data local inpath '/home/codegyani/hive/student_details2' into table student  
+partition(course= "hadoop");  
+
+-------------------------------------Dynamic Partitioning-----------------------------------
+Enable the dynamic partition by using the following commands: -
+hive> set hive.exec.dynamic.partition=true;    
+hive> set hive.exec.dynamic.partition.mode=nonstrict;  
+
+Create a dummy table to store the data.
+hive> create table stud_demo(id int, name string, age int, institute string, course string)   
+row format delimited  
+fields terminated by ',';  
+
+Now, load the data into the table.
+hive> load data local inpath '/home/codegyani/hive/student_details' into table stud_demo;  
+
+Create a partition table by using the following command: -
+hive> create table student_part (id int, name string, age int, institute string)   
+partitioned by (course string)  
+row format delimited  
+fields terminated by ',';  
+
+Now, insert the data of dummy table into the partition table.
+hive> insert into student_part  
+partition(course)  
+select id, name, age, institute, course  
+from stud_demo; 
+
+Now, try to retrieve the data based on partitioned columns by using the following command: -
+hive> select * from student_part where course= "java ";  
+
+-------------------------------Bucketing in HIVE---------------------------------------------
+The concept of bucketing is based on the hashing technique.
+Here, modules of current column value and the number of required buckets is calculated (let say, F(x) % 3).
+Now, based on the resulted value, the data is stored into the corresponding bucket.
+
+First, select the database in which we want to create a table.
+hive> use showbucket; 
+
+Create a dummy table to store the data.
+hive> create table emp_demo (Id int, Name string , Salary float)    
+row format delimited    
+fields terminated by ',' ;  
+
+Now, load the data into the table.
+hive> load data local inpath '/home/codegyani/hive/emp_details' into table emp_demo;  
+
+Enable the bucketing by using the following command: -
+hive> set hive.enforce.bucketing = true;  
+
+Create a bucketing table by using the following command: -
+hive> create table emp_bucket(Id int, Name string , Salary float)    
+clustered by (Id) into 3 buckets  
+row format delimited    
+fields terminated by ',' ;    
+
+Now, insert the data of dummy table into the bucketed table.
+hive> insert overwrite table emp_bucket select * from emp_demo;    
+--------------------------------------------------------------------------------
+Create table from parquet or avro file format
+
+CREATE TABLE avro_test 
+ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.avro.AvroSerDe' 
+STORED AS AVRO 
+TBLPROPERTIES ('avro.schema.url'='myHost/myAvroSchema.avsc'); 
+
+CREATE EXTERNAL TABLE parquet_test 
+STORED AS PARQUET 
+LOCATION 'hdfs://myParquetFilesPath';
+
+create table customer(id string,Branch string,City string,customer_type string,Gender string) 
+create table product(id string,name string,price float,Quantity int,tax float,total float) 
+create table rating(id string,order_date string,payment_mode string,cogs float,gmp float,gross_income float,rating float) 
+create table sales_table(id string,Branch string,City string,customer_type string,Gender string,name string,price float,Quantity int,tax float,total float,order_date string,payment_mode string,cogs float,gmp float,gross_income float,rating float)
+row format delimited
+fields terminated by ','
+load data local inpath '/home/sayyad/Downloads/Datasets/sales_table/sales_table.csv' into table sales_table
+
+val customer=df1.select("id","Branch","City","customer_type","Gender")
+
+    val product=df1.select("id","name","price","Quantity","tax","total")
+
+    val rating=df1.select("id","Date","Payment","cogs","gmp","gross_income","Rating")
+
+-----------------------------------------------------------
+Hive window functions - https://stackoverflow.com/questions/55909029/windowing-function-in-hive
+
+
+
+

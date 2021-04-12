@@ -1,0 +1,83 @@
+AWS EMR SPARK - https://www.youtube.com/watch?v=aIwJlfEAlHQ
+Spark_7_hours - https://www.youtube.com/watch?v=zC9cnh8rJd0
+Bigdata_realworld - https://www.youtube.com/watch?v=kzUlsj3O6rg
+AWS_data_pipelines - https://www.youtube.com/watch?v=5eq6fiw1dPA
+Spark_interview - https://www.youtube.com/watch?v=G4D4iY_hZQ0&list=PLtfmIPhU2DkNjQjL08kR3cd4kUzWqS0vg
+Spark_course - https://www.youtube.com/watch?v=pEi-Ak5l00A&list=PL3N9eeOlCrP5PfpYrP6YxMNtt5Hw27ZlO
+AWS_S3_pandas - https://www.youtube.com/watch?v=f579O7Ef8C0&list=PLL2hlSFBmWwx7AFCvrurMhUOJc7kc0ynP&index=23
+Connetc_EC2 - https://www.youtube.com/watch?v=VbTfYZpPJAU
+S3_batch_operations - https://www.youtube.com/watch?v=2J_myeF115k
+Deploy and execute spark submit - https://www.youtube.com/watch?v=c-cQPHXsihg
+Spark_submit_sandeep_patil - https://www.youtube.com/watch?v=oU_pOwMrDWw
+Real_time_Spark - https://www.youtube.com/watch?v=gI3c99h1HGU&list=PLln0-e-n05OXOV2ydCabpjXBb8QBDDODn
+Jar_file - https://www.youtube.com/watch?v=c-cQPHXsihg
+Scala_setup - https://www.youtube.com/watch?v=u0FLmrnAm5k
+spark_submit -  https://www.youtube.com/watch?v=MLGIXXO3tME
+Scala_issue_fix - https://www.youtube.com/watch?v=x1fFfREn8hQ
+Scala_Programming_course - https://www.youtube.com/watch?v=pDq06gwJnLk
+Read_csv_json - https://www.youtube.com/watch?v=9VFHLBZs_4w, https://www.youtube.com/watch?v=u3FBVUN129g
+Create jar - https://www.youtube.com/watch?v=3Xo6zSBgdgk&t=13s
+Best for AWS(S3,EMR,EC2) - https://www.youtube.com/watch?v=lWYhZalETmk&t=183s
+***************Scala setup in IntellJ - https://www.youtube.com/watch?v=ACp2ioiTwQk&t=714s - *************************************
+*************Spark_esential - https://www.youtube.com/watch?v=1ELXZynmdx0&list=PLD4Un_CYS62V6dgKMOtgMo7HEuOxqhlJf&index=2 ************
+******************** https://www.youtube.com/watch?v=3BOchZ8rRfA ************************************
+******************** https://www.youtube.com/watch?v=IKw0lkmBHNI ************************************
+***********Good visual Explaination - https://www.youtube.com/watch?v=h5vAj9FPl0I&list=PLIBwmCV8YuLNyzmqlDqz35BYNaIEvPNPE&index=3 *************
+*************Refer for sure ****** https://www.youtube.com/watch?v=d41_X78ojCg ********************************
+**********Real Analysis - https://www.youtube.com/watch?v=K14plpZgy_c - ******************************
+***********Parquet and Avro - https://www.youtube.com/watch?v=sLuHzdMGFNA **********************************
+************Real time end to end project - https://www.youtube.com/watch?v=nmy8_Aeqd9Q -***************************
+*********Live streaming spark - https://www.youtube.com/watch?v=8pgQYtDHJpU - ***************************
+************Data PipeLines - https://www.youtube.com/watch?v=lRWkGVBb13o - ********************************
+----------------------------------------------------------------------------------
+Real time scenario - https://www.youtube.com/watch?v=uHiFO-DMknk
+qqqqqqqqqqqq -   https://www.youtube.com/watch?v=CtkzPdS3pyU&list=PLY6Ag0EOw54yWvp_hmSzqrKDLhjdDczNC&index=2
+
+
+
+
+----------------------------------------------------------------------------------
+
+-------------------------------------------
+Log4J
+
+package com.count.com
+import org.apache.spark.sql.SparkSession
+import org.apache.spark.SparkContext
+import  org.apache.log4j.{Level,Logger}
+object App_1 {
+  def main(args: Array[String]) {
+    Logger.getLogger("org").setLevel(Level.ERROR)
+    val logFile = "C:\\spark-3.0.1-bin-hadoop2.7\\README.md" // Should be some file on your system
+    val spark = SparkSession.builder.appName("Simple Application").master("local[*]").getOrCreate()
+    val logData = spark.read.textFile(logFile).cache()
+    val numAs = logData.filter(line => line.contains("a")).count()
+    val numBs = logData.filter(line => line.contains("b")).count()
+    println(s"Lines with a: $numAs, Lines with b: $numBs")
+    spark.stop()
+  }
+}
+-----------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

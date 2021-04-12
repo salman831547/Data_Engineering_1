@@ -1,0 +1,14 @@
+Avro is a Row based format. If you want to retrieve the data as a whole you can use Avro
+Avro, being a row-based file format, is best used for write-intensive operation
+Avro is better suited for appending, deleting and generally mutating columns than Parquet.
+
+Parquet is a Column based format. 
+If your data consists of a lot of columns but you are interested in a subset of columns then you can use Parquet
+It supports indexing. 
+Because of that it is suitable for write-once and read-intensive, complex or analytical querying, low-latency data queries
+
+Both Parquet and Avro supports schema evolution but to a varying degree.
+
+JavaScript Object Notation is a schema-less, text-based representation of structured data that is based on key-value pairs and ordered lists.
+JSON is commonly, but not exclusively, used to exchange information between web clients and web servers. 
+
